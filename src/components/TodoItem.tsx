@@ -7,22 +7,23 @@ export const TodoItem: React.FC<{
   onDelete?: () => void;
   isProcessing?: boolean;
 }> = ({ todo, onDelete, isProcessing }) => {
+  const { completed, title } = todo;
+
   return (
-    <div data-cy="Todo" className={cn('todo', { completed: todo.completed })}>
+    <div data-cy="Todo" className={cn('todo', { completed })}>
       <label className="todo__status-label">
         <input
           data-cy="TodoStatus"
           type="checkbox"
           className="todo__status"
           checked={todo.completed}
-          readOnly
           disabled={isProcessing}
         />
         <span className="is-sr-only">Mark todo as completed</span>
       </label>
 
       <span data-cy="TodoTitle" className="todo__title">
-        {todo.title}
+        {title}
       </span>
 
       <button

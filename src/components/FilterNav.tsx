@@ -1,39 +1,44 @@
 import React from 'react';
 import cn from 'classnames';
-import { Filter } from '../App';
+import { Filter } from '../types/Filter';
 
-export const FilterNav: React.FC<{
+type Props = {
   filter: Filter;
   setFilter: (filter: Filter) => void;
-}> = ({ filter, setFilter }) => {
+};
+
+const FILTER_LINKS = [
+  { href: '#/', value: Filter.All, text: 'All', cy: 'FilterLinkAll' },
+  {
+    href: '#/active',
+    value: Filter.Active,
+    text: 'Active',
+    cy: 'FilterLinkActive',
+  },
+  {
+    href: '#/completed',
+    value: Filter.Completed,
+    text: 'Completed',
+    cy: 'FilterLinkCompleted',
+  },
+];
+
+export const FilterNav: React.FC<Props> = ({ filter, setFilter }) => {
   return (
     <nav className="filter" data-cy="Filter">
-      <a
-        href="#/"
-        className={cn('filter__link', { selected: filter === Filter.All })}
-        data-cy="FilterLinkAll"
-        onClick={() => setFilter(Filter.All)}
-      >
-        All
-      </a>
-      <a
-        href="#/active"
-        className={cn('filter__link', { selected: filter === Filter.Active })}
-        data-cy="FilterLinkActive"
-        onClick={() => setFilter(Filter.Active)}
-      >
-        Active
-      </a>
-      <a
-        href="#/completed"
-        className={cn('filter__link', {
-          selected: filter === Filter.Completed,
-        })}
-        data-cy="FilterLinkCompleted"
-        onClick={() => setFilter(Filter.Completed)}
-      >
-        Completed
-      </a>
+      {FILTER_LINKS.map(link => (
+        <a
+          key={link.value}
+          href={link.href}
+          className={cn('filter__link', {
+            selected: filter === link.value,
+          })}
+          data-cy={link.cy}
+          onClick={() => setFilter(link.value)}
+        >
+          {link.text}
+        </a>
+      ))}
     </nav>
   );
 };
